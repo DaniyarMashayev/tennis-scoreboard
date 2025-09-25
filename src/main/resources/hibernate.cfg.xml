@@ -7,13 +7,17 @@
     <session-factory>
         <!--  ========= НАСТРОЙКА ПОДКЛЮЧЕНИЯ К БАЗЕ ДАННЫХ  ========= -->
         <!-- Драйвер БД -->
-        <property name=" hibernate.connection.url">jdbc:h2:mem:tennis-scoreboard-db;DB_CLOSE_DELAY=-1</property>
+        <property name="hibernate.connection.driver_class">org.h2.Driver</property>
+        <property name="hibernate.connection.url">jdbc:h2:mem:tennis-scoreboard-db;DB_CLOSE_DELAY=-1</property>
 
         <!-- Логин и пароль -->
         <property name="hibernate.connection.username">admin</property>
         <property name="hibernate.connection.password">admin</property>
 
         <!-- ========= НАСТРОЙКА HIBERNATE ========= -->
+
+        <property name="hibernate.connection.pool_size">10</property>
+
         <!-- Диалект H2 -->
         <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
 

@@ -26,8 +26,8 @@ val logbackVersion = "1.4.11"
 dependencies {
     // Provided dependencies
     compileOnly("jakarta.servlet:jakarta.servlet-api:6.0.0")
-    compileOnly("jakarta.servlet:jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0")
-    compileOnly("jakarta.servlet:jsp:jakarta.servlet.jsp-api:3.1.1")
+    compileOnly("jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0")
+    compileOnly("jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.1")
 
     // Runtime dependencies
     runtimeOnly("org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1")
@@ -41,8 +41,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     // For JSP and EL
-    implementation("org.glassfish.web:jakarta.el:5.0.0-M1")
-    // implementation("org.glassfish.web:jakarta.el:4.0.2")
+    implementation("org.glassfish:jakarta.el:4.0.2")
 
     // Test dependencies
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
@@ -66,15 +65,14 @@ gretty {
 
 tasks.war {
     archiveFileName.set("${project.name}.war")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from("src/main/webapp")
-    webInf {
-        from("src/main/webapp/WEB-INF")
-    }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 }
 
 tasks.register<Copy>("deployToTomcat") {
     from(tasks.war)
-    into("/usr/share/tomcat/webapps")
+    into("/opt/tomcat/tomcat/webapps")
     description = "Copies WAR file to external Tomcat webapps directory"
+    doNotTrackState("Destination directory has restricted access")
 }

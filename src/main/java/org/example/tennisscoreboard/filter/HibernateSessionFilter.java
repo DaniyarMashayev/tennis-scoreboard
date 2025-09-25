@@ -9,13 +9,17 @@ import jakarta.servlet.annotation.WebFilter;
 import org.example.tennisscoreboard.util.SessionManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebFilter("/*")
 public class HibernateSessionFilter implements Filter {
+    private static final Logger logger = LoggerFactory.getLogger(HibernateSessionFilter.class);
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws ServletException {
+        logger.info("HibernateSessionFilter executed");
         Session session = SessionManager.getCurrentSession();
         Transaction transaction = null;
 
